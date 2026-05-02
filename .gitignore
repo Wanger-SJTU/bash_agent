@@ -1,0 +1,87 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Project specific
+.bashagnet_history
+*.log
+
+# Config files (may contain API keys)
+bashagnet.yaml
+.bashagnet.yaml
+config.yaml
+*.secret.yaml
+*.local.yaml
+
+# User config directories
+.config/bashagnet/config.yaml
+.config/bashagnet/*.secret.yaml
+
+# API keys and secrets
+*api_key*
+*apikey*
+*api-key*
+*.key
+*.secrets
+credentials.json
+auth.json

@@ -1,0 +1,29 @@
+# Default configuration for bashagnet
+
+ai:
+  provider: claude
+  model: claude-3-5-sonnet-20241022
+  api_key: ${ANTHROPIC_API_KEY}
+  temperature: 0.7
+  max_tokens: 4096
+  # System prompt style: default, concise, verbose, or path to custom file
+  system_prompt: default
+
+shell:
+  history_file: ~/.bash_history
+  max_history: 1000
+  enable_completion: true
+  confirmation_dangerous: true
+
+security:
+  # Empty list means all commands are allowed
+  allowed_commands: []
+  dangerous_commands:
+    - rm -rf
+    - mkfs
+    - dd if=
+    - >:
+    - format
+    - fdisk
+  require_confirmation: true
+  sandbox_mode: false

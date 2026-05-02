@@ -1,0 +1,61 @@
+# Example user configuration file
+#
+# DO NOT commit this file to git!
+# Place it in: ~/.config/bashagnet/config.yaml
+#
+# This file is safe because:
+# 1. It's in your home directory, not the project
+# 2. It references environment variables
+# 3. It's ignored by git
+
+ai:
+  # Provider: claude, openai, or local
+  provider: claude
+
+  # Model selection
+  model: claude-3-5-sonnet-20241022
+
+  # API key - use environment variable!
+  api_key: ${ANTHROPIC_API_KEY}
+
+  # Alternative: Direct key (NOT recommended for repos)
+  # api_key: sk-ant-your-key-here  # ⚠️ DON'T commit this!
+
+  # API settings
+  temperature: 0.7
+  max_tokens: 4096
+
+  # System prompt style
+  system_prompt: default
+
+shell:
+  history_file: ~/.bash_history
+  max_history: 1000
+  enable_completion: true
+  confirmation_dangerous: true
+
+security:
+  # Empty means all commands allowed
+  allowed_commands: []
+
+  # Dangerous command patterns
+  dangerous_commands:
+    - rm -rf
+    - mkfs
+    - dd if=
+    - >:
+    - format
+    - fdisk
+
+  # Require confirmation for dangerous commands
+  require_confirmation: true
+
+  # Sandbox mode (future feature)
+  sandbox_mode: false
+
+# Advanced: Custom endpoint for local models
+# ai:
+#   provider: openai
+#   base_url: http://localhost:11434/v1  # Ollama
+#   model: local-model
+#   api_key: dummy-key
