@@ -176,7 +176,22 @@ def asyncio_run(prompt: str, cfg: Config, execute: bool, dry_run: bool, verbose:
             else:
                 console.print(f"\n[red]✗ Exit code: {result.exit_code}[/red]")
 
-    asyncio.run(_run())
+    try:
+        asyncio.run(_run())
+    except ValueError as e:
+        # Show user-friendly error message (API key issues, etc.)
+        console.print(f"\n[red]Error:[/red] {e}")
+        raise typer.Exit(1)
+    except Exception as e:
+        # Show generic error for unexpected issues
+        if verbose:
+            # In verbose mode, show full traceback
+            raise
+        else:
+            # Otherwise show friendly message
+            console.print(f"\n[red]An error occurred:[/red] {e}")
+            console.print("[yellow]Use --verbose for more details[/yellow]")
+            raise typer.Exit(1)
 
 
 def get_ai_provider(cfg: Config):
