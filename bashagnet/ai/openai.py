@@ -17,7 +17,17 @@ class OpenAIProvider(AIProvider):
         super().__init__(config)
         api_key = config.get("api_key") or os.environ.get("OPENAI_API_KEY")
         if not api_key:
-            raise ValueError("OPENAI_API_KEY not found")
+            raise ValueError(
+                "OPENAI_API_KEY not found\n\n"
+                "To use bashagnet:\n"
+                "1. Get your API key from https://platform.openai.com/\n"
+                "2. Set it as environment variable:\n"
+                "   export OPENAI_API_KEY='sk-...'\n"
+                "3. Or create a .env file:\n"
+                "   echo 'OPENAI_API_KEY=sk-...' > .env\n"
+                "   source .env\n\n"
+                "See docs/QUICKSTART.md for more information."
+            )
 
         base_url = config.get("base_url")
         self.client = AsyncOpenAI(
