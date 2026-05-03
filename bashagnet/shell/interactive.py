@@ -34,34 +34,35 @@ def get_ai_provider(cfg: Config):
 
 def run_interactive(cfg: Config):
     """Run interactive REPL."""
-    # Setup prompt
-    history = FileHistory(".bashagnet_history")
-    session = PromptSession(history=history)
+    try:
+        # Setup prompt
+        history = FileHistory(".bashagnet_history")
+        session = PromptSession(history=history)
 
-    # Setup styling
-    style = Style.from_dict(
-        {
-            "prompt": "ansigreen bold",
-            "command": "ansicyan",
-        }
-    )
+        # Setup styling
+        style = Style.from_dict(
+            {
+                "prompt": "ansigreen bold",
+                "command": "ansicyan",
+            }
+        )
 
-    # Initialize components
-    ai_provider = get_ai_provider(cfg)
-    executor = CommandExecutor()
+        # Initialize components
+        ai_provider = get_ai_provider(cfg)
+        executor = CommandExecutor()
 
-    console.print("\n[bold green]Bashagnet Interactive Mode[/bold green]")
-    console.print("Type 'help' for commands, 'exit' or Ctrl-D to quit\n")
+        console.print("\n[bold green]Bashagnet Interactive Mode[/bold green]")
+        console.print("Type 'help' for commands, 'exit' or Ctrl-D to quit\n")
 
-    while True:
-        try:
-            # Get user input
-            user_input = session.prompt(
-                "bashagnet> ",
-                style=style,
-                lexer=PygmentsLexer(BashLexer),
-                auto_suggest=AutoSuggestFromHistory(),
-            )
+        while True:
+            try:
+                # Get user input
+                user_input = session.prompt(
+                    "bashagnet> ",
+                    style=style,
+                    lexer=PygmentsLexer(BashLexer),
+                    auto_suggest=AutoSuggestFromHistory(),
+                )
 
             if not user_input.strip():
                 continue
@@ -93,10 +94,11 @@ def run_interactive(cfg: Config):
 
 async def process_input(prompt: str, ai_provider, executor, cfg: Config):
     """Process user input in interactive mode."""
-    console.print(f"\n[bold blue]Processing:[/bold blue] {prompt}\n")
+    try:
+        console.print(f"\n[bold blue]Processing:[/bold blue] {prompt}\n")
 
-    # Generate command
-    response = await ai_provider.generate(prompt)
+        # Generate command
+        response = await ai_provider.generate(prompt)
 
     # Show explanation
     if response.explanation:
@@ -140,9 +142,13 @@ async def process_input(prompt: str, ai_provider, executor, cfg: Config):
                 console.print("[yellow]Cancelled[/yellow]")
         except KeyboardInterrupt:
             console.print("\n[yellow]Cancelled[/yellow]")
-    else:
-        # No command generated, just show content
-        console.print(response.content)
+    except ValueError as e:
+        # Show user-friendly error for configuration/API issues
+        console.print(f"\n[red]Error:[/red] {e}")
+    except Exception as e:
+        # Show generic error
+        console.print(f"\n[red]An error occurred:[/red] {e}")
+        console.print("[yellow]Try again or use 'exit' to quit[/yellow]")
 
 
 def show_help():
